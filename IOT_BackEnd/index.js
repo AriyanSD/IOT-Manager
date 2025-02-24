@@ -1,12 +1,29 @@
 const express = require('express');
+const dotenv = require('dotenv');
+const routes = require('./Routes');
+const sequelize = require('./config/database');
+
+dotenv.config();  
+
 const app = express();
+app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const API_TOKEN = process.env.API_TOKEN; 
 
-app.get('/', (req, res) => {
-    res.send('Hello, Express!');
-});
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; 
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    if (!token) return res.status(401).json({ error: 'Access Denied. No token provided.' });
+
+    if (token !== API_TOKEN) return res.status(403).json({ error: 'Invalid token.' });
+
+    next(); 
+}
+
+
+app.use('/api', authenticateToken, routes);
+
+sequelize.sync().then(() => {
+    app.listen(5000, () => console.log('Server running on port 5000'));
 });
