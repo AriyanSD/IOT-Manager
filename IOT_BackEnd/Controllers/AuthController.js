@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const User = require('../models/User');
+const { sendVerificationCode } = require('./smsService');
+const { storeVerificationCode, getStoredVerificationCode } = require('./smsService');
 
 dotenv.config();
 
@@ -10,13 +12,13 @@ function generateToken(user) {
 }
 
 exports.register = async (req, res) => {
-    const { username, email, password, user_type } = req.body;
+    const { username, email, phone_number, password, user_type } = req.body;
 
     if (await User.findOne({ where: { email } })) {
         return res.status(400).json({ error: 'User already exists' });
     }
 
-    const user = await User.create({ username, email, password, user_type });
+    const user = await User.create({ username, email, phone_number, password, user_type });
     res.json({ message: 'User registered successfully', user });
 };
 
@@ -39,7 +41,6 @@ exports.requestPasswordReset = async (req, res) => {
 
         if (!user) return res.status(404).json({ error: 'User not found' });
 
-        // Generate a reset token valid for 1 hour
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         await emailService.sendResetPasswordEmail(user, token);
@@ -67,3 +68,40 @@ exports.resetPassword = async (req, res) => {
         res.status(400).json({ error: 'Invalid or expired token' });
     }
 };
+exports.sendVerificationCode = async (req, res) => {
+    const { mobile } = req.body;
+
+    if (!mobile) {
+        return res.status(400).json({ error: 'Mobile number is required' });
+    }
+
+    const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
+    await storeVerificationCode(mobile, verificationCode);
+
+    try {
+        await sendVerificationCode(mobile, verificationCode);
+        res.json({ message: 'Verification code sent successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to send verification code' });
+    }
+};
+exports.verifyCode = async (req, res) => {
+    const { mobile, code } = req.body;
+
+    if (!mobile || !code) {
+        return res.status(400).json({ error: 'Mobile and verification code are required' });
+    }
+
+    const storedCode = await getStoredVerificationCode(mobile);
+
+    if (!storedCode) {
+        return res.status(400).json({ error: 'Verification code expired or not found' });
+    }
+
+    if (storedCode !== code) {
+        return res.status(400).json({ error: 'Invalid verification code' });
+    }
+
+    res.json({ message: 'Phone number verified successfully' });
+}
+

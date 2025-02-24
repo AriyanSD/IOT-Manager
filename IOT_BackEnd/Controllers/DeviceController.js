@@ -23,3 +23,19 @@ exports.createDevice = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+exports.updateDevice = async (req, res) => {
+    try {
+        const { id } = req.params; 
+        const updateData = req.body; 
+
+        const device = await Device.findByPk(id);
+        if (!device) {
+            return res.status(404).json({ error: 'Device not found' });
+        }
+        await device.update(updateData);
+        return res.status(200).json({ message: 'Device updated successfully', device });
+    } catch (error) {
+        console.error(error);s
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
