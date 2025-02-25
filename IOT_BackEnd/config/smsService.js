@@ -1,12 +1,13 @@
-import {Smsir} from 'smsir-js'
-const Redis = require('ioredis');
-const redis = new Redis();
+
 const dotenv = require('dotenv');
-const TEMPLATE_ID = 123456; 
+const {Smsir}=require('smsir-js');
 dotenv.config();
 
 const API_KEY = process.env.SMS_API_KEY; 
-Smsir.SetApiKey(API_KEY);
+const LINE_NUMBER = process.env.SMS_LINE_NUMBER;
+const TEMPLATE_ID = 123456;
+
+const smsir = new Smsir(API_KEY, LINE_NUMBER);
 
 /**
  * Sends a verification code via SMS
@@ -14,18 +15,18 @@ Smsir.SetApiKey(API_KEY);
  * @param {string} code - The verification code to send
  * @returns {Promise<Object>}
  */
+// Sending verification code via SMS
 const sendVerificationCode = async (mobile, code) => {
     try {
         const parameters = [{ name: 'Code', value: code }];
-
-        const response = await Smsir.SendVerifyCode(mobile, TEMPLATE_ID, parameters);
-
+        const response = await smsir.SendVerifyCode(mobile, TEMPLATE_ID, parameters);
         return response;
     } catch (error) {
         console.error('SMS Sending Error:', error);
         throw error;
     }
 };
+
 
 /**
  * Sends bulk SMS alerts
@@ -61,5 +62,5 @@ const storeVerificationCode = async (mobile, code) => {
 const getStoredVerificationCode = async (mobile) => {
     return await redis.get(`verify:${mobile}`);
 };
-module.exports = { sendBulkAlerts };
-module.exports = sendVerificationCode;
+
+module.exports = { sendBulkAlerts, sendVerificationCode, storeVerificationCode, getStoredVerificationCode };

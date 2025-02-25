@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const sequelize = require('../config/database');
 const Device = require('./Device');
-const MailControler = require('../controllers/MailController');
+const MailControler = require('../Controllers/MailController');
 const Alert = sequelize.define('Alert', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     alert_type: { type: DataTypes.STRING, allowNull: false },
