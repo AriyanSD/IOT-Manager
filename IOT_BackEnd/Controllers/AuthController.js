@@ -6,6 +6,8 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const PhoneCode = require('../models/PhoneCode');
 const { sendVerificationCode} = require('../config/smsService');
+const emailService = require('./MailController');
+
 
 dotenv.config();
 
@@ -15,7 +17,10 @@ function generateToken(user) {
 
 exports.register = async (req, res) => {
     const { username, email, phone_number, password, user_type } = req.body;
-
+    const existingUser = await User.findOne({ where: { phone_number } });
+    if (existingUser) {
+        return res.status(400).json({ error: "Phone number already exists" });
+    }
     if (await User.findOne({ where: { email } })) {
         return res.status(400).json({ error: 'User already exists' });
     }
