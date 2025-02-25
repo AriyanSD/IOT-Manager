@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const EmailToken = require('../models/EmailToken');
+const crypto = require('crypto');
 const User = require('../models/User');
-const { sendVerificationCode } = require('./smsService');
-const { storeVerificationCode, getStoredVerificationCode } = require('./smsService');
+const PhoneCode = require('../models/PhoneCode');
+const { sendVerificationCode} = require('../config/smsService');
 
 dotenv.config();
 
@@ -19,7 +21,13 @@ exports.register = async (req, res) => {
     }
 
     const user = await User.create({ username, email, phone_number, password, user_type });
-    res.json({ message: 'User registered successfully', user });
+
+    const emailToken = crypto.randomBytes(32).toString('hex');
+    await EmailToken.create({ email, token: emailToken });
+
+    await emailService.sendVerificationEmail(email, emailToken);
+
+    res.json({ message: 'User registered successfully. Please verify your email.', user });
 };
 
 exports.login = async (req, res) => {
@@ -76,7 +84,7 @@ exports.sendVerificationCode = async (req, res) => {
     }
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit code
-    await storeVerificationCode(mobile, verificationCode);
+    await storePhoneCode(mobile, verificationCode);
 
     try {
         await sendVerificationCode(mobile, verificationCode);
@@ -85,23 +93,62 @@ exports.sendVerificationCode = async (req, res) => {
         res.status(500).json({ error: 'Failed to send verification code' });
     }
 };
-exports.verifyCode = async (req, res) => {
-    const { mobile, code } = req.body;
 
-    if (!mobile || !code) {
-        return res.status(400).json({ error: 'Mobile and verification code are required' });
+exports.verifyEmail = async (req, res) => {
+    const { token } = req.query;
+
+    const emailTokenRecord = await EmailToken.findOne({ where: { token } });
+
+    if (!emailTokenRecord) {
+        return res.status(400).json({ error: 'Invalid or expired token' });
     }
 
-    const storedCode = await getStoredVerificationCode(mobile);
-
-    if (!storedCode) {
-        return res.status(400).json({ error: 'Verification code expired or not found' });
+    const currentTime = new Date();
+    const tokenTime = new Date(emailTokenRecord.createdAt);
+    const expirationTime = 10 * 60 * 1000; 
+    if (currentTime - tokenTime > expirationTime) {
+        await emailTokenRecord.destroy();
+        return res.status(400).json({ error: 'Token has expired' });
     }
 
-    if (storedCode !== code) {
-        return res.status(400).json({ error: 'Invalid verification code' });
+    const email = emailTokenRecord.email;
+
+    await User.update({ verifiedEmail: true }, { where: { email } });
+
+    await emailTokenRecord.destroy();
+
+    res.json({ message: 'Email verified successfully' });
+};
+const storePhoneCode = async (phone_number, code) => {
+    await PhoneCode.create({ phone_number, code });
+};
+
+exports.verifyPhoneCode = async (req, res) => {
+    const { phone_number, code } = req.body;
+
+    if (!phone_number || !code) {
+        return res.status(400).json({ error: 'Phone number and code are required' });
     }
+
+    const storedCodeRecord = await PhoneCode.findOne({ where: { phone_number, code } });
+
+    if (!storedCodeRecord) {
+        return res.status(400).json({ error: 'Invalid or expired code' });
+    }
+
+    const currentTime = new Date();
+    const codeTime = new Date(storedCodeRecord.createdAt);
+    const expirationTime = 10 * 60 * 1000; 
+    if (currentTime - codeTime > expirationTime) {
+        return res.status(400).json({ error: 'Code has expired' });
+    }
+
+    await User.update({ verifiedNumber: true }, { where: { phone_number } });
+
+
+    await storedCodeRecord.destroy();
 
     res.json({ message: 'Phone number verified successfully' });
-}
+};
+
 

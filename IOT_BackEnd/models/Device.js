@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const sequelize = require('../config/database');
 const User = require('./User');
 
 const Device = sequelize.define('Device', {
@@ -7,7 +7,7 @@ const Device = sequelize.define('Device', {
     device_name: { type: DataTypes.STRING, allowNull: false },
     device_type: { type: DataTypes.STRING, allowNull: false },
     location: { type: DataTypes.STRING, allowNull: false },
-    status: { 
+    status: {  
         type: DataTypes.ENUM('offline', 'Online', 'stand_by'), 
         allowNull: false 
     },
