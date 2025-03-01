@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import API from ".././../../utils/api"; 
 
 export default function Signup () {
@@ -9,7 +10,7 @@ export default function Signup () {
         password: "",
         user_type: "",
     });
-
+    const navigate = useNavigate();
     const [roles, setRoles] = useState([]); 
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
@@ -47,6 +48,7 @@ export default function Signup () {
 
     return (
         <div>
+            <button onClick={() => navigate(-1)}>🔙 Go Back</button>
             <h2>Sign Up</h2>
             {error && <p style={{ color: "red" }}>{error}</p>}
             {message && <p style={{ color: "green" }}>{message}</p>}

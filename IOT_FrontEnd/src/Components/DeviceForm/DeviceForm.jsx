@@ -18,6 +18,7 @@ export default function DeviceForm() {
       try {
         const response = await API.get("/user-rooms");
         setRooms(response.data); 
+        console.log("fetched rooms",response.data)
       } catch (err) {
         console.error("Error fetching rooms:", err);
       }
@@ -36,9 +37,9 @@ export default function DeviceForm() {
         status: status,
         data: parseFloat(data),
         data_type: dataType,
-        room_id: selectedRoomId, 
+        roomId: selectedRoomId, 
       });
-
+      console.log(selectedRoomId);
       setDeviceName("");
       setDeviceType("");
       setLocation("");

@@ -18,5 +18,5 @@ const Device = sequelize.define('Device', {
 });
 
 Device.belongsTo(User, { foreignKey: 'userId', as: 'user' }); 
-Device.belongsTo(Room, { foreignKey: 'room_id', as: 'room' });
+//Device.belongsTo(Room, { foreignKey: 'roomId', as: 'room' });
 module.exports = Device;

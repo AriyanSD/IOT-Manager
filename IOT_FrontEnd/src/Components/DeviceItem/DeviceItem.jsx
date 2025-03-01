@@ -8,7 +8,6 @@ export default function DeviceDetails() {
   const device = location.state?.device;
   const [alerts, setAlerts] = useState([]);
   
-  // Fetch alerts for the device
   useEffect(() => {
     if (device) {
       const fetchAlerts = async () => {
@@ -31,7 +30,7 @@ export default function DeviceDetails() {
     if (confirmation) {
       try {
         await API.delete(`/device/${device.id}`);
-        navigate("/devices"); 
+        navigate("/room/${device.roomId}/devices"); 
       } catch (err) {
         console.error("Error deleting device:", err);
       }
@@ -40,6 +39,7 @@ export default function DeviceDetails() {
 
   return (
     <div>
+      <button onClick={() => navigate(-1)}>🔙 Go Back</button>
       <h2>Device Details</h2>
       <p><strong>Name:</strong> {device.device_name}</p>
       <p><strong>Status:</strong> {device.status}</p>
@@ -47,14 +47,13 @@ export default function DeviceDetails() {
       <p><strong>Location:</strong> {device.location}</p>
       <p><strong>Data:</strong> {device.data} {device.data_type}</p>
       <p><strong>Token:</strong> {device.device_token}</p>
-
       <h3>Alert History</h3>
       {alerts.length === 0 ? <p>No alerts found.</p> : (
         <ul>
           {alerts.map(alert => (
             <li key={alert.id}>
-              <p>{alert.type}</p>
-              <p>{alert.message} - {alert.time}</p>
+              <p>{alert.alert_type}</p>
+              <p>{alert.message} - {new Date(alert.time).toLocaleString()}</p>
             </li>
           ))}
         </ul>

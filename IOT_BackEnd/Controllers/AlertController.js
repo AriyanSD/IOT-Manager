@@ -1,6 +1,6 @@
 const Alert = require('../models/Alert');
 const Device = require('../models/Device');
-
+const { Op } = require('sequelize'); 
 exports.getAlerts = async (req, res) => {
     try {
         const userDevices = await Device.findAll({ where: { userId: req.user.id } });
@@ -8,9 +8,8 @@ exports.getAlerts = async (req, res) => {
 
         let query = { deviceId: deviceIds };
 
-        // Filters
-        if (req.query.search_message) query.message = { [Op.iLike]: `%${req.query.search_message}%` };
-        if (req.query.search_device) query.deviceName = { [Op.iLike]: `%${req.query.search_device}%` };
+        if (req.query.search_message) query.message = { [Op.like]: `%${req.query.search_message}%` };
+        if (req.query.search_device) query.deviceName = { [Op.like]: `%${req.query.search_device}%` };
         if (req.query.filter_type) query.alert_type = req.query.filter_type;
         if (req.query.order) query.order = [['time', req.query.order]];
 
@@ -23,12 +22,21 @@ exports.getAlerts = async (req, res) => {
 
 exports.createAlert = async (req, res) => {
     try {
-        const newAlert = await Alert.create(req.body);
-        res.status(201).json(newAlert);
+        console.log(req.body);
+        console.log(req.device.id); 
+
+        const newAlert = await Alert.create({
+            ...req.body,
+            deviceId: req.device.id, 
+        });
+
+        res.status(201).json(newAlert); 
     } catch (err) {
-        res.status(400).json({ error: err.message });
+        console.error('Error creating alert:', err.message);
+        res.status(400).json({ error: err.message }); 
     }
 };
+
 
 exports.getAlertsByDevice = async (req, res) => {
     try {
