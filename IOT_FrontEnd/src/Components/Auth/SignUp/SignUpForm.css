@@ -1,0 +1,102 @@
+/* Container for the sign-up form */
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+/* Title for the sign-up page */
+.signup-container h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form styling */
+.signup-container form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+/* Input fields styling */
+.signup-container input,
+.signup-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button styling */
+.signup-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+.signup-container button:hover {
+    background-color: #45a049;
+}
+
+/* Error and success message styling */
+.signup-container p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Error message color */
+.signup-container .error {
+    color: red;
+}
+
+/* Success message color */
+.signup-container .success {
+    color: green;
+}
+
+/* Go back button */
+.signup-container .go-back-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Hover effect for the go-back button */
+.signup-container .go-back-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 600px) {
+    .signup-container {
+        padding: 10px;
+    }
+
+    .signup-container form {
+        width: 90%;
+    }
+}

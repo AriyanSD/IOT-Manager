@@ -1,0 +1,100 @@
+/* Container for the login form */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f9;
+    padding: 20px;
+}
+
+/* Title for the login page */
+.login-container h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form styling */
+.login-container form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+}
+
+/* Input fields styling */
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Button styling */
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+.login-container button:hover {
+    background-color: #45a049;
+}
+
+/* Error and success message styling */
+.login-container p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Error message color */
+.login-container .error {
+    color: red;
+}
+
+/* Success message color */
+.login-container .success {
+    color: green;
+}
+
+/* Sign Up button */
+.login-container .signup-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover effect for the sign-up button */
+.login-container .signup-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 600px) {
+    .login-container {
+        padding: 10px;
+    }
+
+    .login-container form {
+        width: 90%;
+    }
+}

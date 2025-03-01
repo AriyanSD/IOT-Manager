@@ -1,0 +1,67 @@
+/* Dashboard Container */
+.dashboard {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Search Section */
+.search-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.search-section label {
+    font-weight: bold;
+}
+
+.search-section input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-section select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 150px;
+}
+
+/* Buttons */
+.dashboard button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.dashboard button:hover {
+    background-color: #0056b3;
+}
+
+/* Room Form */
+
+/* Room List */
+.room-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Logout Button */
+.logout-button {
+    background-color: #ffc107;
+}
+
+.logout-button:hover {
+    background-color: #e0a800;
+}

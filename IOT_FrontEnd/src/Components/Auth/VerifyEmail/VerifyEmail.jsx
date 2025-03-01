@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import API from "../../../utils/api"; 
-import { useLocation } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import './VerifyEmail.css';
 const VerifyEmail = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
     const tokenVerifiedRef = useRef(false);  
@@ -17,6 +18,10 @@ const VerifyEmail = () => {
             API.get(`/verify-email?token=${token}`)
                 .then((response) => {
                     setMessage(response.data.message);
+        
+                    setTimeout(() => {
+                        navigate("/login");
+                    }, 2000);  
                 })
                 .catch((error) => {
                     if (error.response && error.response.data) {
@@ -32,14 +37,14 @@ const VerifyEmail = () => {
             setMessage("No token provided.");
             setLoading(false);
         }
-    }, [location.search]);  
+    }, [location.search, navigate]);  
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="loader">Loading...</div>;  
     }
 
     return (
-        <div>
+        <div className="verification-container">
             <h2>Email Verification</h2>
             <p>{message}</p>
         </div>

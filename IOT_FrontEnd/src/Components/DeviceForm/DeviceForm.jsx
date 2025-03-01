@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import API from "../../utils/api";
 import { useNavigate } from "react-router-dom";
-
+import "./DeviceForm.css";
 export default function DeviceForm() {
   const [deviceName, setDeviceName] = useState("");
   const [deviceType, setDeviceType] = useState("");
@@ -18,7 +18,7 @@ export default function DeviceForm() {
       try {
         const response = await API.get("/user-rooms");
         setRooms(response.data); 
-        console.log("fetched rooms",response.data)
+        console.log("Fetched rooms:", response.data);
       } catch (err) {
         console.error("Error fetching rooms:", err);
       }
@@ -39,7 +39,6 @@ export default function DeviceForm() {
         data_type: dataType,
         roomId: selectedRoomId, 
       });
-      console.log(selectedRoomId);
       setDeviceName("");
       setDeviceType("");
       setLocation("");
@@ -47,14 +46,14 @@ export default function DeviceForm() {
       setData("");
       setDataType("");
       setSelectedRoomId(""); 
-      navigate("/"); 
+      navigate("/dashboard"); 
     } catch (err) {
       console.error("Error adding device:", err);
     }
   };
 
   return (
-    <div>
+    <div className="device-form-container">
       <h2>Add a New Device</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -139,3 +138,4 @@ export default function DeviceForm() {
     </div>
   );
 }
+
