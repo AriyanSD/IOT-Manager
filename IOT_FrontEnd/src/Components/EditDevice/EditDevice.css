@@ -1,0 +1,70 @@
+.edit-device-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.edit-device-container .back-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #007bff;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.edit-device-container .back-button:hover {
+    text-decoration: underline;
+}
+
+.edit-device-container h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.edit-device-container form div {
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.edit-device-container label {
+    display: block;
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.edit-device-container input,
+.edit-device-container select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.edit-device-container input:focus,
+.edit-device-container select:focus {
+    border-color: #007bff;
+}
+
+.edit-device-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.edit-device-container button:hover {
+    background-color: #0056b3;
+}

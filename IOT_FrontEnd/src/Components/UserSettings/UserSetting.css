@@ -1,0 +1,83 @@
+/* UserSettings Container */
+.user-settings-container {
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    z-index: 1000;
+}
+
+/* Title */
+.user-settings-container h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* Form Inputs */
+.user-settings-container input,
+.user-settings-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.user-settings-container input:focus,
+.user-settings-container select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Buttons */
+.user-settings-container button {
+    width: 48%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 4%;
+}
+
+.user-settings-container button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+}
+
+.user-settings-container button[type="button"] {
+    background-color: #dc3545;
+    color: white;
+}
+
+.user-settings-container button[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.user-settings-container button[type="button"]:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Layout */
+@media (max-width: 600px) {
+    .user-settings-container {
+        top: 10%;
+        left: 10%;
+        width: 80%;
+    }
+
+    .user-settings-container button {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

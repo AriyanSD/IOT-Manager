@@ -1,0 +1,50 @@
+.rooms-list {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rooms-list h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.rooms-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rooms-list li {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.rooms-list li:hover {
+    background-color: #e0e0e0;
+}
+
+.rooms-list p {
+    font-size: 16px;
+    color: #777;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .rooms-list {
+        width: 90%;
+    }
+}

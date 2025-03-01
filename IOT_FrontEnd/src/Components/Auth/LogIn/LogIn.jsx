@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../../../utils/api"; 
 import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 export default function Login () {
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -28,19 +29,34 @@ export default function Login () {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {message && <p style={{ color: "green" }}>{message}</p>}
+        <div className="login-container">
+    <h2>Login</h2>
+    {error && <p className="error">{error}</p>}
+    {message && <p className="success">{message}</p>}
 
-            <form onSubmit={handleSubmit}>
-                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-                <button type="submit">Login</button>
-            </form>
-            <button onClick={() => navigate("/register")}>
-                Sign Up
-            </button>
-        </div>
+    <form onSubmit={handleSubmit}>
+        <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+        />
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+        />
+        <button type="submit">Login</button>
+    </form>
+    <button className="signup-btn" onClick={() => navigate("/register")}>
+        Sign Up
+    </button>
+</div>
+
     );
 };

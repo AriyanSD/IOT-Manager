@@ -1,0 +1,122 @@
+.device-details-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+/* Back Button */
+.device-details-container .back-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #007bff;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.device-details-container .back-button:hover {
+    text-decoration: underline;
+}
+
+/* Headings */
+.device-details-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.device-details-container p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.device-details-container h3 {
+    margin-top: 20px;
+    color: #333;
+}
+
+/* Alerts List */
+.device-details-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.device-details-container li {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    border-left: 4px solid #007bff;
+}
+
+/* Status Indicator */
+.device-status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+/* Dynamic Status Colors */
+.device-status.online {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.device-status.offline {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.device-status.stand_by {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Action Buttons */
+.device-details-container .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.device-details-container .action-buttons button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+/* Edit Button */
+.device-details-container .edit-button {
+    background-color: #28a745;
+    color: white;
+    margin-right: 5px;
+}
+
+.device-details-container .edit-button:hover {
+    background-color: #218838;
+}
+
+/* Delete Button */
+.device-details-container .delete-button {
+    background-color: #dc3545;
+    color: white;
+    margin-left: 5px;
+}
+
+.device-details-container .delete-button:hover {
+    background-color: #c82333;
+}

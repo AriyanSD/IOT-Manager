@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import API from "../../utils/api";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import API from "../../utils/api";
+import "./EditDevice.css";
 export default function EditDeviceForm() {
-   const routeLocation = useLocation();
+  const routeLocation = useLocation();
   const navigate = useNavigate();
-  const device = routeLocation.state?.device; // Get device data passed from DeviceDetails
+  const device = routeLocation.state?.device;
 
   const [deviceName, setDeviceName] = useState(device?.device_name || "");
   const [deviceType, setDeviceType] = useState(device?.device_type || "");
@@ -32,7 +32,6 @@ export default function EditDeviceForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        console.log("deviceID",device.id);
       await API.put(`/device/${device.id}`, {
         device_name: deviceName,
         device_type: deviceType,
@@ -42,15 +41,16 @@ export default function EditDeviceForm() {
         data_type: dataType,
         roomId: selectedRoomId,
       });
-      navigate(`/device/${device.id}`, { state: { device } }); 
+  
+      navigate(`/dashboard`);
     } catch (err) {
       console.error("Error updating device:", err);
     }
   };
 
   return (
-    <div>
-    <button onClick={() => navigate(-1)}>🔙 Go Back</button>
+    <div className="edit-device-container">
+      <button className="back-button" onClick={() => navigate(-1)}>🔙 Go Back</button>
       <h2>Edit Device</h2>
       <form onSubmit={handleSubmit}>
         <div>

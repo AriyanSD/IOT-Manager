@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import API from "../../utils/api";
+import "./UserSetting.css";
 
 export default function UserSettings({ onClose }) {
     const [formData, setFormData] = useState({
@@ -15,7 +16,6 @@ export default function UserSettings({ onClose }) {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-
                 const response = await API.get(`/user`); 
                 setFormData({
                     username: response.data.user.username,
@@ -56,7 +56,7 @@ export default function UserSettings({ onClose }) {
     };
 
     return (
-        <div style={{ position: "absolute", top: "20%", left: "30%", background: "#fff", padding: "20px", border: "1px solid #000" }}>
+        <div className="user-settings-container">
             <h3>Edit Profile</h3>
             <form onSubmit={handleSubmit}>
                 <input

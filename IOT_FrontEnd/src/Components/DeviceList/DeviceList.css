@@ -1,0 +1,48 @@
+.device-list-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.device-list-container .back-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #007bff;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.device-list-container .back-button:hover {
+    text-decoration: underline;
+}
+
+.device-list-container h3 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.device-item {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #007bff;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.device-item:hover {
+    background-color: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.device-item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
