@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import API from ".././../../utils/api"; 
 
-const Signup = () => {
+export default function Signup () {
     const [formData, setFormData] = useState({
         username: "",
         email: "",
@@ -16,11 +17,7 @@ const Signup = () => {
     useEffect(() => {
         const fetchRoles = async () => {
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/get-rules`, {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json" },
-                });
-                const data = await response.json();
+                const { data } = await API.get("/get-rules");
                 setRoles(data);
                 setFormData((prev) => ({ ...prev, user_type: data[0] })); 
             } catch (err) {
@@ -41,18 +38,10 @@ const Signup = () => {
         setMessage("");
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || "Something went wrong");
-
+            await API.post("/register", formData);
             setMessage("Registration successful! Please verify your email.");
         } catch (err) {
-            setError(err.message);
+            setError(err.response?.data?.error || "Something went wrong");
         }
     };
 
@@ -82,4 +71,3 @@ const Signup = () => {
     );
 };
 
-export default Signup;

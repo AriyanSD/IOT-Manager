@@ -9,6 +9,6 @@ const Room = sequelize.define('Room', {
 });
 
 Room.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-Room.belongsToMany(Device, { through: 'RoomDevices', as: 'devices' });
+
 
 module.exports = Room;

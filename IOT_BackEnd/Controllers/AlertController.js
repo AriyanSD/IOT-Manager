@@ -29,3 +29,25 @@ exports.createAlert = async (req, res) => {
         res.status(400).json({ error: err.message });
     }
 };
+
+exports.getAlertsByDevice = async (req, res) => {
+    try {
+        const { deviceId } = req.params;
+
+        const userDevice = await Device.findOne({ where: { id: deviceId, userId: req.user.id } });
+        if (!userDevice) {
+            return res.status(403).json({ error: "Access denied: Device not found" });
+        }
+
+        let query = { deviceId };
+
+        if (req.query.search_message) query.message = { [Op.iLike]: `%${req.query.search_message}%` };
+        if (req.query.filter_type) query.alert_type = req.query.filter_type;
+        if (req.query.order) query.order = [['time', req.query.order]];
+
+        const alerts = await Alert.findAll({ where: query });
+        res.json(alerts);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};

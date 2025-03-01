@@ -15,6 +15,7 @@ exports.getDevices = async (req, res) => {
     }
 };
 
+
 exports.createDevice = async (req, res) => {
     try {
         const newDevice = await Device.create({ ...req.body, userId: req.user.id });
@@ -37,5 +38,43 @@ exports.updateDevice = async (req, res) => {
     } catch (error) {
         console.error(error);s
         return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.getDevicesByRoom = async (req, res) => {
+    async (req, res) => {
+        try {
+            const { roomId } = req.params;
+                const room = await Room.findByPk(roomId, {
+                include: { model: Device, as: "devices" },
+            });
+    
+            if (!room) {
+                return res.status(404).json({ message: "Room not found" });
+            }
+    
+            res.json(room.devices);
+        } catch (error) {
+            console.error("Error fetching devices:", error);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+}
+}
+
+exports.deleteDevice = async (req, res) => {
+    try {
+        const { id } = req.params; 
+
+        const device = await Device.findByPk(id); 
+        if (!device) {
+            return res.status(404).json({ error: 'Device not found' }); 
+        }
+
+        await device.destroy(); 
+
+        return res.status(200).json({ message: 'Device deleted successfully' }); 
+    } catch (err) {
+        console.error("Error deleting device:", err); 
+        return res.status(500).json({ error: 'Internal Server Error' }); // Return 500 for internal server error
     }
 };
