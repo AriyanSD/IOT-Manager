@@ -1,10 +1,12 @@
 import { useState } from "react";
+import API from "../../../utils/api"; 
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login () {
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
-
+    const navigate = useNavigate();
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -15,19 +17,13 @@ export default function Login() {
         setMessage("");
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            });
-
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || "Invalid credentials");
-
-            localStorage.setItem("token", data.token); 
+            const { data } = await API.post("/login", formData);
+            localStorage.setItem("token", data.token);
             setMessage("Login successful!");
+            navigate("/dashboard");
+            
         } catch (err) {
-            setError(err.message);
+            setError(err.response?.data?.error || "Invalid credentials");
         }
     };
 
@@ -42,6 +38,9 @@ export default function Login() {
                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
                 <button type="submit">Login</button>
             </form>
+            <button onClick={() => navigate("/register")}>
+                Sign Up
+            </button>
         </div>
     );
 };

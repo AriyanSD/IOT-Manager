@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const User = require('./User');
+const Room = require('./Room');
 
 const Device = sequelize.define('Device', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -17,5 +18,5 @@ const Device = sequelize.define('Device', {
 });
 
 Device.belongsTo(User, { foreignKey: 'userId', as: 'user' }); 
-
+Device.belongsTo(Room, { foreignKey: 'room_id', as: 'room' });
 module.exports = Device;

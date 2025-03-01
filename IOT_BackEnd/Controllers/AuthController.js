@@ -24,6 +24,9 @@ exports.register = async (req, res) => {
     if (await User.findOne({ where: { email } })) {
         return res.status(400).json({ error: 'User already exists' });
     }
+    if (await User.findOne({ where: { username } })) {
+        return res.status(400).json({ error: 'UserName already exists' });
+    }
 
     const user = await User.create({ username, email, phone_number, password, user_type });
 
@@ -39,7 +42,16 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ where: { email } });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user) {
+        return res.status(400).json({ error: 'Invalid email or password' });
+    }
+
+    if (!user.verifiedEmail) {
+        return res.status(403).json({ error: 'Email is not verified. Please verify your email first.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
         return res.status(400).json({ error: 'Invalid email or password' });
     }
 
