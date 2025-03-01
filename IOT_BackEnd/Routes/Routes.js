@@ -5,6 +5,7 @@ const alertController = require('../Controllers/AlertController');
 const authController = require('../Controllers/AuthController');
 const userController= require('../Controllers/UserController');
 const roomController = require('../Controllers/RoomController');
+const checkDevice = require('../MIddleWares/DeviceCheck');
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.post('/devices', authMiddleware, deviceController.createDevice);
 router.put('/device/:id',authMiddleware,deviceController.updateDevice);
 router.delete('/device/:id',authMiddleware,deviceController.deleteDevice);
 router.get('/alerts', authMiddleware, alertController.getAlerts);
-router.post('/alerts', authMiddleware, alertController.createAlert);
+router.post('/alerts',checkDevice, alertController.createAlert);
 
 router.put('/user',authMiddleware,userController.updateUser);
 router.get('/user',authMiddleware,userController.getUser);

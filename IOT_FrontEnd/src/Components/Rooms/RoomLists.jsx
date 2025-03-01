@@ -2,22 +2,20 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../utils/api";
 
-export default function RoomsList() {
+export default function RoomsList({ roomsUpdated }) {
     const [rooms, setRooms] = useState([]);
     const navigate = useNavigate();
-
+    const fetchRooms = async () => {
+        try {
+            const response = await API.get("/user-rooms"); 
+            setRooms(response.data);
+        } catch (err) {
+            console.error("Error fetching rooms:", err);
+        }
+    };
     useEffect(() => {
-        const fetchRooms = async () => {
-            try {
-                const response = await API.get("/user-rooms"); 
-                setRooms(response.data);
-            } catch (err) {
-                console.error("Error fetching rooms:", err);
-            }
-        };
-
         fetchRooms();
-    }, []);
+    }, [roomsUpdated]);
 
     const handleRoomClick = (roomId) => {
         navigate(`/room/${roomId}/devices`); 

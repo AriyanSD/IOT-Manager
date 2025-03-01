@@ -3,9 +3,9 @@ import API from "../../utils/api";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export default function EditDeviceForm() {
-  const location = useLocation();
+   const routeLocation = useLocation();
   const navigate = useNavigate();
-  const device = location.state?.device; // Get device data passed from DeviceDetails
+  const device = routeLocation.state?.device; // Get device data passed from DeviceDetails
 
   const [deviceName, setDeviceName] = useState(device?.device_name || "");
   const [deviceType, setDeviceType] = useState(device?.device_type || "");
@@ -16,7 +16,6 @@ export default function EditDeviceForm() {
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState(device?.room_id || "");
 
-  // Fetch rooms
   useEffect(() => {
     const fetchRooms = async () => {
       try {
@@ -33,6 +32,7 @@ export default function EditDeviceForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+        console.log("deviceID",device.id);
       await API.put(`/device/${device.id}`, {
         device_name: deviceName,
         device_type: deviceType,
@@ -40,7 +40,7 @@ export default function EditDeviceForm() {
         status: status,
         data: parseFloat(data),
         data_type: dataType,
-        room_id: selectedRoomId,
+        roomId: selectedRoomId,
       });
       navigate(`/device/${device.id}`, { state: { device } }); 
     } catch (err) {
@@ -50,6 +50,7 @@ export default function EditDeviceForm() {
 
   return (
     <div>
+    <button onClick={() => navigate(-1)}>🔙 Go Back</button>
       <h2>Edit Device</h2>
       <form onSubmit={handleSubmit}>
         <div>

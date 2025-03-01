@@ -1,5 +1,6 @@
 const User = require('../models/User');
-
+const Room = require('../models/Room');
+const Device = require('../models/Device');
 exports.updateUser = async (req, res) => {
     try {
         const updateData = req.body; 
@@ -36,7 +37,7 @@ exports.getRules = async (req, res) => {
 
 exports.getUserRooms = async (req, res) => {
     try {
-        const { userId } = req.user.id;
+        const userId  = req.user.id;
 
         const rooms = await Room.findAll({
             where: { userId }, 

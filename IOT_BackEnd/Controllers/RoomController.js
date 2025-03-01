@@ -1,7 +1,8 @@
+const Room= require('../models/Room');
 exports.AddRoom= async (req, res) => {
     try {
         const { room_name } = req.body;
-        const { userId } = req.user.id;
+        const userId = req.user.id; 
         if (!room_name || !userId) {
             return res.status(400).json({ error: 'Room name and user ID are required.' });
         }

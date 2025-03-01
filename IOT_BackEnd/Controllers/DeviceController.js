@@ -1,10 +1,11 @@
 const Device = require('../models/Device');
-
+const Room= require('../models/Room');
+const { Op } = require('sequelize'); 
 exports.getDevices = async (req, res) => {
     try {
         let query = { userId: req.user.id };
 
-        if (req.query.search_name) query.device_name = { [Op.iLike]: `%${req.query.search_name}%` };
+        if (req.query.search_name) query.device_name = { [Op.like]: `%${req.query.search_name}%` }; 
         if (req.query.filter_status) query.status = req.query.filter_status;
         if (req.query.filter_type) query.device_type = req.query.filter_type;
 
@@ -42,9 +43,9 @@ exports.updateDevice = async (req, res) => {
 };
 
 exports.getDevicesByRoom = async (req, res) => {
-    async (req, res) => {
         try {
             const { roomId } = req.params;
+            console.log("_____________________the roomid",roomId);
                 const room = await Room.findByPk(roomId, {
                 include: { model: Device, as: "devices" },
             });
@@ -58,7 +59,6 @@ exports.getDevicesByRoom = async (req, res) => {
             console.error("Error fetching devices:", error);
             res.status(500).json({ message: "Internal Server Error" });
         }
-}
 }
 
 exports.deleteDevice = async (req, res) => {
